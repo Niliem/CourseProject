@@ -2,6 +2,7 @@
 #define MAINWINDOW_HPP
 
 #include <QMainWindow>
+#include "filtrationform.hpp"
 
 class MainWindow
     : public QMainWindow
@@ -11,6 +12,8 @@ class MainWindow
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    std::shared_ptr<FiltrationForm> mFiltrationForm;
 };
 
 #endif // MAINWINDOW_HPP

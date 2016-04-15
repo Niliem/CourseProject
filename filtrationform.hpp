@@ -14,15 +14,15 @@ public:
     explicit FiltrationForm(QWidget *parent = 0);
 
 private:
-    void updateImageLabel(QImage *image, QLabel *label, int minWidth, int minHeight);
-    void binarization(QImage *image, int treshHold);
-    void binarization(QImage *image);
-    void inversion(QImage *image);
+    void updateImageLabel(std::shared_ptr<QImage> image, std::shared_ptr<QLabel> label, int minWidth, int minHeight);
+    void binarization(std::shared_ptr<QImage> image, int treshHold);
+    void binarization(std::shared_ptr<QImage> image);
+    void inversion(std::shared_ptr<QImage> image);
 
-    QImage *mCurrentImage;
-    QLabel *mImageLabel;
+    std::shared_ptr<QImage> mCurrentImage;
+    std::shared_ptr<QLabel> mImageLabel;
 
-    QPushButton *mFiltrationBtutton;
+    std::shared_ptr<QPushButton> mFiltrationBtutton;
 
 signals:
 
