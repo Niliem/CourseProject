@@ -4,7 +4,11 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLineEdit>
 #include <QCloseEvent>
+#include <QGroupBox>
+#include <QRadioButton>
 #include <memory>
 
 class FiltrationForm
@@ -22,16 +26,28 @@ private:
 	void inversion(std::shared_ptr<QImage> image) const;
 
     std::shared_ptr<QImage> mCurrentImage;
+	std::shared_ptr<QImage> mOriginalImage;
     QLabel* mImageLabel;
 
 	QVBoxLayout* mVLayout;
 	QWidget* mWindow;
 
-    QPushButton* mBinarizationButton;
-    QPushButton* mInversionButton;
+	QGroupBox* mRadioButtonGroupBox;
+	QRadioButton* mBinarizationWithTresHoldRadioButton;
+	QRadioButton* mBinarizationWithOutTresHoldRadioButton;
+	QVBoxLayout* mRadioButtonsVBoxLayout;
+	QHBoxLayout* mFirstRadioButtonsHBoxLayout;
+	QHBoxLayout* mSecondRadioButtonsHBoxLayout;
+	QLineEdit* mThesHoldEdit;
 
-    QPushButton* mOkButton;
-    QPushButton* mCanselButton;
+    QPushButton* mBinarizationButton;    
+
+	QPushButton* mInversionButton;
+
+	QPushButton* mOkButton;
+	QPushButton* mCanselButton;
+
+	QHBoxLayout* mControllButtonsHBoxLayout;
 
 	std::shared_ptr<QMainWindow> mMainWindow;
 
@@ -39,5 +55,10 @@ signals:
 	void getImage(std::shared_ptr<QImage> image);
 
 public slots:
+	void checkRadioButtons();
+	void binarizationButton();
+	void cancel();
+	void inversionImage();
+	void ok();
 };
 

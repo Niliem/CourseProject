@@ -1,4 +1,5 @@
 #include "filtrationform.hpp"
+#include <QIntValidator>
 
 FiltrationForm::FiltrationForm(std::shared_ptr<QImage> image, QWidget *parent)
 	: QMainWindow(parent)
@@ -6,26 +7,124 @@ FiltrationForm::FiltrationForm(std::shared_ptr<QImage> image, QWidget *parent)
 	this->setWindowTitle("Filtration");
 
 	mCurrentImage = image;
+	mOriginalImage = std::make_shared<QImage>(*image);
 
 	mImageLabel = new QLabel();
 	mVLayout = new QVBoxLayout();
 
+	//Binarization
+	mRadioButtonGroupBox = new QGroupBox(tr("Binarization"));
+	mBinarizationWithTresHoldRadioButton = new QRadioButton(tr("Binarization with treshold"));
+	connect(mBinarizationWithTresHoldRadioButton, SIGNAL(clicked(bool)), this, SLOT(checkRadioButtons()));
+	mBinarizationWithOutTresHoldRadioButton = new QRadioButton(tr("Binarization without treshold"));
+	connect(mBinarizationWithOutTresHoldRadioButton, SIGNAL(clicked(bool)), this, SLOT(checkRadioButtons()));
+
+	mThesHoldEdit = new QLineEdit("0");
+	mThesHoldEdit->setValidator(new QIntValidator(0, 255, this));
+
+	mRadioButtonsVBoxLayout = new QVBoxLayout();
+	mFirstRadioButtonsHBoxLayout = new QHBoxLayout();
+	mSecondRadioButtonsHBoxLayout = new QHBoxLayout();	
+	mControllButtonsHBoxLayout = new QHBoxLayout();
+
+	mBinarizationButton = new QPushButton(tr("Binarization"));
+	connect(mBinarizationButton, SIGNAL(pressed()), this, SLOT(binarizationButton()));
+
 	mWindow = new QWidget();
 
+	mBinarizationWithTresHoldRadioButton->setChecked(true);
+	mBinarizationWithOutTresHoldRadioButton->setChecked(false);
+
+	mFirstRadioButtonsHBoxLayout->addWidget(mBinarizationWithTresHoldRadioButton);
+	mFirstRadioButtonsHBoxLayout->addWidget(mThesHoldEdit);
+
+	mSecondRadioButtonsHBoxLayout->addWidget(mBinarizationWithOutTresHoldRadioButton);
+
+
+	mRadioButtonsVBoxLayout->addLayout(mFirstRadioButtonsHBoxLayout);
+	mRadioButtonsVBoxLayout->addLayout(mSecondRadioButtonsHBoxLayout);
+	mRadioButtonsVBoxLayout->addWidget(mBinarizationButton);
+
+	mRadioButtonGroupBox->setLayout(mRadioButtonsVBoxLayout);
+	///Binarization
+
+	mInversionButton = new QPushButton(tr("Inversion"));
+	connect(mInversionButton, SIGNAL(pressed()), this, SLOT(inversionImage()));
+
+	mOkButton = new QPushButton(tr("Ok"));
+	connect(mOkButton, SIGNAL(pressed()), this, SLOT(ok()));
+
+	mCanselButton = new QPushButton(tr("Cancel"));
+	connect(mCanselButton, SIGNAL(pressed()), this, SLOT(cancel()));
+
+	mControllButtonsHBoxLayout->addWidget(mOkButton);
+	mControllButtonsHBoxLayout->addWidget(mCanselButton);
+
 	mVLayout->addWidget(mImageLabel);
+	mVLayout->addWidget(mRadioButtonGroupBox);
+	mVLayout->addWidget(mInversionButton);
+	mVLayout->addLayout(mControllButtonsHBoxLayout);
+
 	mWindow->setLayout(mVLayout);
 	setCentralWidget(mWindow);
 
 	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 }
 
+void FiltrationForm::checkRadioButtons()
+{
+	if(mBinarizationWithTresHoldRadioButton->isChecked())
+	{
+		mThesHoldEdit->setVisible(true);
+	}
+	else if(mBinarizationWithOutTresHoldRadioButton->isChecked())
+	{
+		mThesHoldEdit->setVisible(false);
+	}
+	else
+	{ }
+}
+
+void FiltrationForm::binarizationButton()
+{
+	if (mBinarizationWithTresHoldRadioButton->isChecked())
+	{
+		auto thresHold = mThesHoldEdit->text().toInt();
+		binarization(mCurrentImage, thresHold);
+		updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
+	}
+	else if (mBinarizationWithOutTresHoldRadioButton->isChecked())
+	{
+		binarization(mCurrentImage);
+		updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
+	}
+	else
+	{
+	}
+}
+
+void FiltrationForm::cancel()
+{
+	mCurrentImage = std::make_shared<QImage>(*mOriginalImage);
+	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
+}
+
+void FiltrationForm::inversionImage()
+{
+	inversion(mCurrentImage);
+	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
+}
+
+void FiltrationForm::ok()
+{
+	emit getImage(mCurrentImage);
+	this->close();
+}
+
 void FiltrationForm::closeEvent(QCloseEvent* event)
 {
 	event->ignore();
-	binarization(mCurrentImage);
-	inversion(mCurrentImage);
-	emit getImage(mCurrentImage);
-	//event->accept();
+	event->accept();
 }
 
 void FiltrationForm::updateImageLabel(std::shared_ptr<QImage> image, QLabel* label, int minWidth, int minHeight) const
@@ -64,7 +163,6 @@ void FiltrationForm::binarization(std::shared_ptr<QImage> image)
 		}
 	}
 	treshHold /= image->height() * image->width();
-	setWindowTitle(std::to_string(treshHold).c_str());
 	binarization(image, treshHold);
 }
 
