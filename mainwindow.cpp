@@ -54,7 +54,7 @@ void MainWindow::createMenu()
 
 void MainWindow::OpenImage()
 {
-	mCurrentImage->load(QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.bmp)")));
+	mCurrentImage->load(QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.jpg)")));
 	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 }
 

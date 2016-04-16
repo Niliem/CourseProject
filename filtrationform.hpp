@@ -19,12 +19,12 @@ private:
     void updateImageLabel(std::shared_ptr<QImage> image, QLabel* label, int minWidth, int minHeight) const;
     void binarization(std::shared_ptr<QImage> image, int treshHold);
     void binarization(std::shared_ptr<QImage> image);
-	void inversion(std::shared_ptr<QImage> image);
+	void inversion(std::shared_ptr<QImage> image) const;
 
     std::shared_ptr<QImage> mCurrentImage;
     QLabel* mImageLabel;
 
-	QVBoxLayout* vLayout;
+	QVBoxLayout* mVLayout;
 	QWidget* mWindow;
 
     QPushButton* mBinarizationButton;
