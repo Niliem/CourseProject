@@ -40,10 +40,11 @@ private:
 	QVBoxLayout* mRadioButtonsVBoxLayout;
 	QHBoxLayout* mFirstRadioButtonsHBoxLayout;
 	QHBoxLayout* mSecondRadioButtonsHBoxLayout;
-	QLineEdit* mThesHoldEdit;
+	//QLineEdit* mThesHoldEdit;
 	QSlider* mThesHoldSlider;
+	QLabel* mThesHoldLabel;
 
-    QPushButton* mBinarizationButton;    
+    //QPushButton* mBinarizationButton;    
 
 	QPushButton* mInversionButton;
 
@@ -60,7 +61,7 @@ signals:
 public slots:
 	void binarizationWithSlider(int value);
 	void checkRadioButtons();
-	void binarizationButton();
+	void updateRadioButtons();
 	void cancel();
 	void inversionImage();
 	void ok();

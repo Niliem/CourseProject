@@ -19,20 +19,18 @@ FiltrationForm::FiltrationForm(std::shared_ptr<QImage> image, QWidget *parent)
 	mBinarizationWithOutTresHoldRadioButton = new QRadioButton(tr("Binarization without treshold"));
 	connect(mBinarizationWithOutTresHoldRadioButton, SIGNAL(clicked(bool)), this, SLOT(checkRadioButtons()));
 
-	mThesHoldEdit = new QLineEdit("0");
-	mThesHoldEdit->setValidator(new QIntValidator(0, 255, this));
-
-	mThesHoldSlider = new QSlider(Qt::Orientation::Vertical);
+	mThesHoldSlider = new QSlider(Qt::Orientation::Horizontal);
 	mThesHoldSlider->setRange(0, 255);
 	connect(mThesHoldSlider, SIGNAL(valueChanged(int)), this, SLOT(binarizationWithSlider(int)));
+	connect(mThesHoldSlider, SIGNAL(sliderPressed()), this, SLOT(updateRadioButtons()));
+
+	mThesHoldLabel = new QLabel("0");
+	connect(mThesHoldSlider, SIGNAL(valueChanged(int)), mThesHoldLabel, SLOT(setNum(int)));
 
 	mRadioButtonsVBoxLayout = new QVBoxLayout();
 	mFirstRadioButtonsHBoxLayout = new QHBoxLayout();
 	mSecondRadioButtonsHBoxLayout = new QHBoxLayout();	
 	mControllButtonsHBoxLayout = new QHBoxLayout();
-
-	mBinarizationButton = new QPushButton(tr("Binarization"));
-	connect(mBinarizationButton, SIGNAL(pressed()), this, SLOT(binarizationButton()));
 
 	mWindow = new QWidget();
 
@@ -40,15 +38,14 @@ FiltrationForm::FiltrationForm(std::shared_ptr<QImage> image, QWidget *parent)
 	mBinarizationWithOutTresHoldRadioButton->setChecked(false);
 
 	mFirstRadioButtonsHBoxLayout->addWidget(mBinarizationWithTresHoldRadioButton);
-	mFirstRadioButtonsHBoxLayout->addWidget(mThesHoldEdit);
+	mFirstRadioButtonsHBoxLayout->addWidget(mThesHoldSlider);
+	mFirstRadioButtonsHBoxLayout->addWidget(mThesHoldLabel);
 
 	mSecondRadioButtonsHBoxLayout->addWidget(mBinarizationWithOutTresHoldRadioButton);
 
 
 	mRadioButtonsVBoxLayout->addLayout(mFirstRadioButtonsHBoxLayout);
 	mRadioButtonsVBoxLayout->addLayout(mSecondRadioButtonsHBoxLayout);
-	mRadioButtonsVBoxLayout->addWidget(mBinarizationButton);
-	mRadioButtonsVBoxLayout->addWidget(mThesHoldSlider);
 
 	mRadioButtonGroupBox->setLayout(mRadioButtonsVBoxLayout);
 	///Binarization
@@ -80,35 +77,32 @@ void FiltrationForm::checkRadioButtons()
 {
 	if(mBinarizationWithTresHoldRadioButton->isChecked())
 	{
-		mThesHoldEdit->setVisible(true);
+		mCurrentImage = std::make_shared<QImage>(*mOriginalImage);
+		auto value = mThesHoldSlider->value();
+		binarization(mCurrentImage, value);
+		updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
+
+		connect(mThesHoldSlider, SIGNAL(valueChanged(int)), this, SLOT(binarizationWithSlider(int)));
 	}
 	else if(mBinarizationWithOutTresHoldRadioButton->isChecked())
 	{
-		mThesHoldEdit->setVisible(false);
-	}
-	else
-	{ }
-}
-
-void FiltrationForm::binarizationButton()
-{
-	if (mBinarizationWithTresHoldRadioButton->isChecked())
-	{
-		auto thresHold = mThesHoldEdit->text().toInt();
-		binarization(mCurrentImage, thresHold);
-		updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
-	}
-	else if (mBinarizationWithOutTresHoldRadioButton->isChecked())
-	{
+		disconnect(mThesHoldSlider, SIGNAL(valueChanged(int)), this, SLOT(binarizationWithSlider(int)));
+		mCurrentImage = std::make_shared<QImage>(*mOriginalImage);
 		binarization(mCurrentImage);
 		updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 	}
-	else
-	{}
+}
+
+void FiltrationForm::updateRadioButtons()
+{
+	mBinarizationWithTresHoldRadioButton->setChecked(true);
+	mBinarizationWithOutTresHoldRadioButton->setChecked(false);
+	checkRadioButtons();
 }
 
 void FiltrationForm::binarizationWithSlider(int value)
 {
+	mCurrentImage = std::make_shared<QImage>(*mOriginalImage);
 	binarization(mCurrentImage, value);
 	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 }
