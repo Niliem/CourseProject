@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 
 #include "filtrationform.hpp"
+#include "segmentationform.hpp"
 
 class MainWindow
     : public QMainWindow
@@ -21,6 +22,7 @@ public:
 private slots:
 	void OpenImage();
 	void OpenFiltrationForm();
+	void OpenSegmentationForm();
 	void setImage(std::shared_ptr<QImage> image);
 
 private:
@@ -28,6 +30,7 @@ private:
 	void createMenu();	
 
     std::shared_ptr<FiltrationForm> mFiltrationForm;
+    std::shared_ptr<SegmentationForm> mSegmentationForm;
 
     std::shared_ptr<QImage> mCurrentImage;
     QLabel* mImageLabel;
@@ -36,6 +39,7 @@ private:
 
     QAction* mOpenImageAction;
 	QAction* mOpenFiltrationFormAction;
+	QAction* mOpenSegmentationFormAction;
 	QAction* mExitAction;
 
     QMenu* mFileMenu;

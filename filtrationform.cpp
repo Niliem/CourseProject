@@ -22,6 +22,10 @@ FiltrationForm::FiltrationForm(std::shared_ptr<QImage> image, QWidget *parent)
 	mThesHoldEdit = new QLineEdit("0");
 	mThesHoldEdit->setValidator(new QIntValidator(0, 255, this));
 
+	mThesHoldSlider = new QSlider(Qt::Orientation::Vertical);
+	mThesHoldSlider->setRange(0, 255);
+	connect(mThesHoldSlider, SIGNAL(valueChanged(int)), this, SLOT(binarizationWithSlider(int)));
+
 	mRadioButtonsVBoxLayout = new QVBoxLayout();
 	mFirstRadioButtonsHBoxLayout = new QHBoxLayout();
 	mSecondRadioButtonsHBoxLayout = new QHBoxLayout();	
@@ -44,6 +48,7 @@ FiltrationForm::FiltrationForm(std::shared_ptr<QImage> image, QWidget *parent)
 	mRadioButtonsVBoxLayout->addLayout(mFirstRadioButtonsHBoxLayout);
 	mRadioButtonsVBoxLayout->addLayout(mSecondRadioButtonsHBoxLayout);
 	mRadioButtonsVBoxLayout->addWidget(mBinarizationButton);
+	mRadioButtonsVBoxLayout->addWidget(mThesHoldSlider);
 
 	mRadioButtonGroupBox->setLayout(mRadioButtonsVBoxLayout);
 	///Binarization
@@ -99,8 +104,13 @@ void FiltrationForm::binarizationButton()
 		updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 	}
 	else
-	{
-	}
+	{}
+}
+
+void FiltrationForm::binarizationWithSlider(int value)
+{
+	binarization(mCurrentImage, value);
+	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 }
 
 void FiltrationForm::cancel()

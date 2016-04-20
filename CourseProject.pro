@@ -11,10 +11,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = CourseProject
 TEMPLATE = app
 
+CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    filtrationform.cpp
+    filtrationform.cpp \
+    segmentationform.cpp
 
 HEADERS  += mainwindow.hpp \
-    filtrationform.hpp
+    filtrationform.hpp \
+    segmentationform.hpp

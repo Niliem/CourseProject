@@ -33,7 +33,14 @@ void MainWindow::setImage(std::shared_ptr<QImage> image)
 {
 	mCurrentImage = image;
 	updateImageLabel(image, mImageLabel, 0, 0);
-	disconnect(mFiltrationForm.get(), SIGNAL(getImage), this, SLOT(setImage));
+    if(mFiltrationForm != nullptr)
+    {
+        disconnect(mFiltrationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
+    }
+    if(mSegmentationForm != nullptr)
+    {
+        disconnect(mSegmentationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
+    }
 }
 
 void MainWindow::createActions()
@@ -43,6 +50,9 @@ void MainWindow::createActions()
 
 	mOpenFiltrationFormAction = new QAction(tr("&Open filtration form..."), this);
 	connect(mOpenFiltrationFormAction, SIGNAL(triggered()), this, SLOT(OpenFiltrationForm()));
+
+	mOpenSegmentationFormAction = new QAction(tr("&Open segmentation form..."), this);
+	connect(mOpenSegmentationFormAction, SIGNAL(triggered()), this, SLOT(OpenSegmentationForm()));
 }
 
 void MainWindow::createMenu()
@@ -50,6 +60,7 @@ void MainWindow::createMenu()
 	mFileMenu = menuBar()->addMenu(tr("&File"));
 	mFileMenu->addAction(mOpenImageAction);
 	mFileMenu->addAction(mOpenFiltrationFormAction);
+    mFileMenu->addAction(mOpenSegmentationFormAction);
 }
 
 void MainWindow::OpenImage()
@@ -61,7 +72,13 @@ void MainWindow::OpenImage()
 void MainWindow::OpenFiltrationForm()
 {
 	mFiltrationForm = std::make_shared<FiltrationForm>(mCurrentImage);	
-	connect(mFiltrationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
-	mFiltrationForm->show();
-	
+    connect(mFiltrationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
+	mFiltrationForm->show();	
+}
+
+void MainWindow::OpenSegmentationForm()
+{
+    mSegmentationForm = std::make_shared<SegmentationForm>(mCurrentImage);
+    connect(mSegmentationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
+    mSegmentationForm->show();
 }

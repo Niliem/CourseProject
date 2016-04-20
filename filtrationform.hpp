@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QSlider>
 #include <QCloseEvent>
 #include <QGroupBox>
 #include <QRadioButton>
@@ -17,6 +18,7 @@ class FiltrationForm
     Q_OBJECT
 public:
 	explicit FiltrationForm(std::shared_ptr<QImage> image, QWidget *parent = nullptr);
+
 	void closeEvent(QCloseEvent * event) override;
 
 private:
@@ -39,6 +41,7 @@ private:
 	QHBoxLayout* mFirstRadioButtonsHBoxLayout;
 	QHBoxLayout* mSecondRadioButtonsHBoxLayout;
 	QLineEdit* mThesHoldEdit;
+	QSlider* mThesHoldSlider;
 
     QPushButton* mBinarizationButton;    
 
@@ -49,12 +52,13 @@ private:
 
 	QHBoxLayout* mControllButtonsHBoxLayout;
 
-	std::shared_ptr<QMainWindow> mMainWindow;
+    //std::shared_ptr<QMainWindow> mMainWindow;
 
 signals:
 	void getImage(std::shared_ptr<QImage> image);
 
 public slots:
+	void binarizationWithSlider(int value);
 	void checkRadioButtons();
 	void binarizationButton();
 	void cancel();
