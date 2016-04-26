@@ -138,6 +138,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cell.cpp" />
     <ClCompile Include="Debug\moc_filtrationform.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -150,6 +151,8 @@
     <ClCompile Include="filtrationform.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="morphology.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="Release\moc_filtrationform.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -162,6 +165,7 @@
     <ClCompile Include="segmentationform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cell.hpp" />
     <CustomBuild Include="filtrationform.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\..\Qt\5.6\msvc2015_64\include" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtGui" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtANGLE" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtCore" "-I.\release" "-I.\..\..\..\Qt\5.6\msvc2015_64\mkspecs\win32-msvc2015"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing filtrationform.hpp...</Message>
@@ -182,6 +186,8 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
+    <ClInclude Include="morphology.hpp" />
+    <ClInclude Include="object.hpp" />
     <CustomBuild Include="segmentationform.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\..\Qt\5.6\msvc2015_64\include" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtGui" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtANGLE" "-I.\..\..\..\Qt\5.6\msvc2015_64\include\QtCore" "-I.\release" "-I.\..\..\..\Qt\5.6\msvc2015_64\mkspecs\win32-msvc2015"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing segmentationform.hpp...</Message>

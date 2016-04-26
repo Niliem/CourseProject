@@ -4,8 +4,6 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLineEdit>
 #include <QSlider>
 #include <QCloseEvent>
 #include <QGroupBox>
@@ -40,11 +38,8 @@ private:
 	QVBoxLayout* mRadioButtonsVBoxLayout;
 	QHBoxLayout* mFirstRadioButtonsHBoxLayout;
 	QHBoxLayout* mSecondRadioButtonsHBoxLayout;
-	//QLineEdit* mThesHoldEdit;
 	QSlider* mThesHoldSlider;
 	QLabel* mThesHoldLabel;
-
-    //QPushButton* mBinarizationButton;    
 
 	QPushButton* mInversionButton;
 

@@ -16,8 +16,14 @@ CONFIG += c++11
 SOURCES += main.cpp\
         mainwindow.cpp \
     filtrationform.cpp \
-    segmentationform.cpp
+    segmentationform.cpp \
+    cell.cpp \
+    object.cpp \
+    morphology.cpp
 
 HEADERS  += mainwindow.hpp \
     filtrationform.hpp \
-    segmentationform.hpp
+    segmentationform.hpp \
+    cell.hpp \
+    object.hpp \
+    morphology.hpp

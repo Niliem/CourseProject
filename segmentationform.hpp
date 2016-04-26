@@ -1,13 +1,14 @@
-#ifndef SEGMENTATIONFORM_HPP
-#define SEGMENTATIONFORM_HPP
+#pragma once
+
 
 #include <QMainWindow>
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QCloseEvent>
 #include <memory>
+
+#include "morphology.hpp"
 
 class SegmentationForm
         : public QMainWindow
@@ -36,7 +37,7 @@ private:
 
     QHBoxLayout* mControllButtonsHBoxLayout;
 
-    std::shared_ptr<QMainWindow> mMainWindow;
+    //std::shared_ptr<QMainWindow> mMainWindow;
 
 signals:
     void getImage(std::shared_ptr<QImage> image);
@@ -47,4 +48,3 @@ public slots:
     void ok();
 };
 
-#endif // SEGMENTATIONFORM_HPP

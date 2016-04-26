@@ -26,17 +26,20 @@
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{8ef2c249-f813-4715-9808-624c9a2b0683}</UniqueIdentifier>
+      <UniqueIdentifier>{6635777a-36c9-4187-9b70-c1fed37f9e41}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{5df600fe-9c06-4874-951e-ea357a93fea5}</UniqueIdentifier>
+      <UniqueIdentifier>{fbe1413e-c3aa-4d87-9e09-317141485a6a}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="filtrationform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,6 +47,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="morphology.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="segmentationform.cpp">
@@ -69,12 +78,21 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cell.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="filtrationform.hpp">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="mainwindow.hpp">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="morphology.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="object.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="segmentationform.hpp">
       <Filter>Header Files</Filter>
     </CustomBuild>
