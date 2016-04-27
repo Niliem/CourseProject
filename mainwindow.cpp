@@ -26,7 +26,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateImageLabel(std::shared_ptr<QImage> image, QLabel* label, int minWidth, int minHeight) const
 {
-	label->setPixmap(QPixmap::fromImage(*image).scaled(300, 300));
+	label->setPixmap(QPixmap::fromImage(*image).scaled(600, image->height(), Qt::KeepAspectRatioByExpanding));
 }
 
 void MainWindow::setImage(std::shared_ptr<QImage> image)

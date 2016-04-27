@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <string>
 
 #include "cell.hpp"
 
@@ -11,6 +10,8 @@ public:
     Object();
 
     bool addCell(Cell cell);
+    ////////////////////
+    int getCellValue(int x, int y) const;
 
     void generateObject();
     void generateImage();

@@ -133,7 +133,7 @@ void FiltrationForm::closeEvent(QCloseEvent* event)
 
 void FiltrationForm::updateImageLabel(std::shared_ptr<QImage> image, QLabel* label, int minWidth, int minHeight) const
 {
-	label->setPixmap(QPixmap::fromImage(*image).scaled(300, 300));
+	label->setPixmap(QPixmap::fromImage(*image).scaled(600, image->height(), Qt::KeepAspectRatioByExpanding));
 }
 
 void FiltrationForm::binarization(std::shared_ptr<QImage> image, int treshHold)

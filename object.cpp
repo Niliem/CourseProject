@@ -1,4 +1,5 @@
 #include "object.hpp"
+#include <string>
 
 Object::Object()
 	: m_MinX{ 0 }
@@ -11,51 +12,55 @@ Object::Object()
 {
 }
 
-
 bool Object::addCell(Cell cell)
 {
-	if (this->m_isGenerated)
+	if (m_isGenerated)
 		return false;
-	this->m_Cells.push_back(cell);
+	m_Cells.push_back(cell);
 	return true;
+}
+
+int Object::getCellValue(int x, int y) const
+{
+	return m_Image[y][x];
 }
 
 void Object::generateObject()
 {
-	this->m_MinX = this->m_Cells[0].x;
-	this->m_MaxX = this->m_Cells[0].x;
-	this->m_MinY = this->m_Cells[0].y;
-	this->m_MaxY = this->m_Cells[0].y;
-	for (auto& i : this->m_Cells)
+	m_MinX = m_Cells[0].x;
+	m_MaxX = m_Cells[0].x;
+	m_MinY = m_Cells[0].y;
+	m_MaxY = m_Cells[0].y;
+	for (auto& i : m_Cells)
 	{
-		this->m_MinX = (i.x < this->m_MinX) ? i.x : this->m_MinX;
-		this->m_MaxX = (i.x > this->m_MaxX) ? i.x : this->m_MaxX;
-		this->m_MinY = (i.y < this->m_MinY) ? i.y : this->m_MinY;
-		this->m_MaxY = (i.y > this->m_MaxY) ? i.y : this->m_MaxY;
+		m_MinX = (i.x < m_MinX) ? i.x : m_MinX;
+		m_MaxX = (i.x > m_MaxX) ? i.x : m_MaxX;
+		m_MinY = (i.y < m_MinY) ? i.y : m_MinY;
+		m_MaxY = (i.y > m_MaxY) ? i.y : m_MaxY;
 	}
-	this->m_Width = this->m_MaxX - this->m_MinX + 1;
-	this->m_Height = this->m_MaxY - this->m_MinY + 1;
-	this->generateImage();
-	this->m_isGenerated = true;
+	m_Width = m_MaxX - m_MinX + 1;
+	m_Height = m_MaxY - m_MinY + 1;
+	generateImage();
+	m_isGenerated = true;
 }
 
 void Object::generateImage()
 {
-	this->m_Image.resize(this->m_Height);
-	for (auto i = 0; i < this->m_Height; ++i)
+	m_Image.resize(m_Height);
+	for (auto i = 0; i < m_Height; ++i)
 	{
-		this->m_Image[i].resize(this->m_Width);
-		for (auto j = 0; j < this->m_Width; ++j)
+		m_Image[i].resize(m_Width);
+		for (auto j = 0; j < m_Width; ++j)
 		{
-			for (auto& c : this->m_Cells)
+			for (auto& c : m_Cells)
 			{
-				if ((c.x - this->m_MinX) == j && (c.y - this->m_MinY) == i)
+				if ((c.x - m_MinX) == j && (c.y - m_MinY) == i)
 				{
-					this->m_Image[i][j] = 1;
+					m_Image[i][j] = 1;
 					break;
 				}
 				else
-					this->m_Image[i][j] = 0;
+					m_Image[i][j] = 0;
 			}
 		}
 	}
@@ -68,27 +73,27 @@ void Object::resize(int newWidth, int newHeight)
 
 int Object::count() const
 {
-	return this->m_Cells.size();
+	return m_Cells.size();
 }
 
 int Object::width() const
 {
-	return this->m_Width;
+	return m_Width;
 }
 
 int Object::height() const
 {
-	return this->m_Height;
+	return m_Height;
 }
 
 int Object::x() const
 {
-	return this->m_MinX;
+	return m_MinX;
 }
 
 int Object::y() const
 {
-	return this->m_MinY;
+	return m_MinY;
 }
 
 std::string Object::print()
@@ -102,10 +107,10 @@ std::string Object::print()
 std::string Object::printImage()
 {
 	std::string msg;
-	for (auto i = 0; i < this->m_Height; ++i)
+	for (auto i = 0; i < m_Height; ++i)
 	{
-		for (auto j = 0; j < this->m_Width; j++)
-			msg += std::to_string(this->m_Image[i][j]) + " ";
+		for (auto j = 0; j < m_Width; j++)
+			msg += std::to_string(m_Image[i][j]) + " ";
 		msg += "\n";
 	}
 	msg += "\n";
