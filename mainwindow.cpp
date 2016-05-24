@@ -1,6 +1,7 @@
 #include "mainwindow.hpp"
 #include <QFileDialog>
 #include <QMenuBar>
+#include <fstream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,11 +37,26 @@ void MainWindow::setImage(std::shared_ptr<QImage> image)
     if(mFiltrationForm != nullptr)
     {
         disconnect(mFiltrationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
-    }
-    if(mSegmentationForm != nullptr)
-    {
-        disconnect(mSegmentationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
-    }
+    }    
+}
+
+void MainWindow::setArrowObjects(std::vector<std::shared_ptr<Object>> object)
+{
+	mArrowObjects = object;
+
+	std::ofstream out("result.txt");
+	for (auto& i : mArrowObjects)
+	{
+		out << " Object: " << i->x() << "->" << i->width() << ":" << i->y() << "->" << i->height() << std::endl;
+		out << i->printImage();
+	}
+	out << "End" << std::endl;
+	out.close();
+
+	if (mSegmentationForm != nullptr)
+	{
+		disconnect(mSegmentationForm.get(), SIGNAL(getArrowObjects(std::vector<std::shared_ptr<Object>>)), this, SLOT(setArrowObjects(std::vector<std::shared_ptr<Object>>)));
+	}
 }
 
 void MainWindow::createActions()
@@ -79,6 +95,6 @@ void MainWindow::OpenFiltrationForm()
 void MainWindow::OpenSegmentationForm()
 {
     mSegmentationForm = std::make_shared<SegmentationForm>(mCurrentImage);
-    connect(mSegmentationForm.get(), SIGNAL(getImage(std::shared_ptr<QImage>)), this, SLOT(setImage(std::shared_ptr<QImage>)));
+    connect(mSegmentationForm.get(), SIGNAL(getArrowObjects(std::vector<std::shared_ptr<Object>>)), this, SLOT(setArrowObjects(std::vector<std::shared_ptr<Object>>)));
     mSegmentationForm->show();
 }

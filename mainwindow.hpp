@@ -24,6 +24,7 @@ private slots:
 	void OpenFiltrationForm();
 	void OpenSegmentationForm();
 	void setImage(std::shared_ptr<QImage> image);
+	void setArrowObjects(std::vector<std::shared_ptr<Object>> object);
 
 private:
 	void createActions();
@@ -31,6 +32,8 @@ private:
 
     std::shared_ptr<FiltrationForm> mFiltrationForm;
     std::shared_ptr<SegmentationForm> mSegmentationForm;
+
+	std::vector<std::shared_ptr<Object>> mArrowObjects;
 
     std::shared_ptr<QImage> mCurrentImage;
     QLabel* mImageLabel;

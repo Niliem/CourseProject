@@ -20,10 +20,12 @@ public:
 
 private:
     void updateImageLabel(std::shared_ptr<QImage> image, QLabel* label, int minWidth, int minHeight) const;
-    void segmentation(std::shared_ptr<QImage> image) const;
+    void segmentation(std::shared_ptr<QImage> image);
 
     std::shared_ptr<QImage> mCurrentImage;
     std::shared_ptr<QImage> mOriginalImage;
+
+	std::vector<std::shared_ptr<Object>> mObjects;
 
     QLabel* mImageLabel;
 
@@ -37,10 +39,8 @@ private:
 
     QHBoxLayout* mControllButtonsHBoxLayout;
 
-    //std::shared_ptr<QMainWindow> mMainWindow;
-
 signals:
-    void getImage(std::shared_ptr<QImage> image);
+    void getArrowObjects(std::vector<std::shared_ptr<Object>> object);
 
 public slots:
     void segmentationImage();

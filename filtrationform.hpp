@@ -48,8 +48,6 @@ private:
 
 	QHBoxLayout* mControllButtonsHBoxLayout;
 
-    //std::shared_ptr<QMainWindow> mMainWindow;
-
 signals:
 	void getImage(std::shared_ptr<QImage> image);
 

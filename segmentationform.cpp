@@ -1,12 +1,11 @@
 #include "segmentationform.hpp"
 
-#include <fstream>
 #include <QTime>
 
 SegmentationForm::SegmentationForm(std::shared_ptr<QImage> image, QWidget *parent)
     : QMainWindow(parent)
 {
-    this->setWindowTitle("Filtration");
+    this->setWindowTitle("Segmentation");
 
     mCurrentImage = image;
     mOriginalImage = std::make_shared<QImage>(*image);
@@ -18,7 +17,7 @@ SegmentationForm::SegmentationForm(std::shared_ptr<QImage> image, QWidget *paren
 
     mWindow = new QWidget();
 
-    mSegmentationButton = new QPushButton(tr("Binarization"));
+    mSegmentationButton = new QPushButton(tr("Segmentation"));
     connect(mSegmentationButton, SIGNAL(pressed()), this, SLOT(segmentationImage()));
 
     mOkButton = new QPushButton(tr("Ok"));
@@ -51,7 +50,7 @@ void SegmentationForm::updateImageLabel(std::shared_ptr<QImage> image, QLabel* l
     label->setPixmap(QPixmap::fromImage(*image).scaled(600, image->height(), Qt::KeepAspectRatioByExpanding));
 }
 
-void SegmentationForm::segmentation(std::shared_ptr<QImage> image) const
+void SegmentationForm::segmentation(std::shared_ptr<QImage> image)
 {
 	// Parse image
 	auto Height = image->height();
@@ -67,19 +66,11 @@ void SegmentationForm::segmentation(std::shared_ptr<QImage> image) const
 			map[i][j] = QColor(image->pixel(j, i)).red() > 123 ? 0 : 1;
 		}
 	}
-
-	std::ofstream out("result.txt");
-
+	
+	mObjects.clear();
 	std::vector<std::vector<int>> Labels(Height, std::vector<int>(Width, 0));
-	std::vector<std::shared_ptr<Object>> objects;
-	Morphology::GenerateObjectList(map, objects, Width, Height, Labels);
-
-	for (auto& i : objects)
-	{
-		out << " Object: " << i->x() << "->" << i->width() << ":" << i->y() << "->" << i->height() << std::endl;
-		out << i->printImage();
-	}
-
+	Morphology::GenerateObjectList(map, mObjects, Width, Height, Labels);
+	
 	auto startX = 0;
 	auto startY = 0;
 
@@ -90,11 +81,9 @@ void SegmentationForm::segmentation(std::shared_ptr<QImage> image) const
 	auto g = 0;
 	auto b = 0;
 
-	out << "End" << std::endl;
-
 	QTime time;
 
-	for(auto& o : objects)
+	for(auto& o : mObjects)
 	{
 		startX = o->x();
 		startY = o->y();
@@ -124,8 +113,6 @@ void SegmentationForm::segmentation(std::shared_ptr<QImage> image) const
 		}
 	}	
 	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
-	
-	out.close();
 }
 
 void SegmentationForm::segmentationImage()
@@ -140,8 +127,24 @@ void SegmentationForm::cancel()
     updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 }
 
+bool betwen(int value, int min, int max)
+{
+	return (value > min && value < max);
+}
+
 void SegmentationForm::ok()
 {
-    emit getImage(mCurrentImage);
+	// get objects 31x31
+	std::vector<std::shared_ptr<Object>> mArrows;
+	for (auto& o : mObjects)
+	{
+		if (betwen(o->width(), 25, 35) && betwen(o->height(), 25, 35))
+		{
+			mArrows.push_back(o);
+		}
+	}
+	// sorted by x()
+
+    emit getArrowObjects(mArrows);
     this->close();
 }
