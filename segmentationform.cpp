@@ -138,7 +138,7 @@ void SegmentationForm::ok()
 	std::vector<std::shared_ptr<Object>> mArrows;
 	for (auto& o : mObjects)
 	{
-		if (betwen(o->width(), 25, 35) && betwen(o->height(), 25, 35))
+		if (betwen(o->width(), 28, 33) && betwen(o->height(), 28, 33))
 		{
 			mArrows.push_back(o);
 		}

@@ -68,7 +68,31 @@ void Object::generateImage()
 
 void Object::resize(int newWidth, int newHeight)
 {
-	// TODO: Resize m_Cells;
+	std::vector<std::vector<int>> tempImage = m_Image;
+	m_Image.resize(newHeight);
+	for (auto i = 0; i < newHeight; ++i)
+	{
+		m_Image[i].resize(newWidth, 0);
+	}
+	auto minHeight = (newHeight < m_Height) ? newHeight : m_Height;
+	auto maxHeight = (newHeight > m_Height) ? newHeight : m_Height;
+	auto startHeight = static_cast<int>((maxHeight - minHeight) / 2);
+
+	auto minWidth = (newWidth < m_Width) ? newWidth : m_Width;
+	auto maxWidth = (newWidth > m_Width) ? newWidth : m_Width;
+	auto startWidth = static_cast<int>((maxWidth - minWidth) / 2);
+
+	for (auto i = 0; i < m_Height; ++i)
+	{
+		for (auto j = 0; j < m_Width; ++j)
+		{
+			int _i = (i + startHeight < newHeight) ? i + startHeight : newHeight - 1;
+			int _j = (j + startWidth < newWidth) ? j + startWidth : newWidth - 1;
+			m_Image[_i][_j] = tempImage[i][j];
+		}
+	}
+	m_Height = newHeight;
+	m_Width = newWidth;
 }
 
 int Object::count() const

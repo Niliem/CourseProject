@@ -47,6 +47,7 @@ void MainWindow::setArrowObjects(std::vector<std::shared_ptr<Object>> object)
 	std::ofstream out("result.txt");
 	for (auto& i : mArrowObjects)
 	{
+		i->resize(33, 33);
 		out << " Object: " << i->x() << "->" << i->width() << ":" << i->y() << "->" << i->height() << std::endl;
 		out << i->printImage();
 	}

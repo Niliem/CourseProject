@@ -26,12 +26,12 @@
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{6635777a-36c9-4187-9b70-c1fed37f9e41}</UniqueIdentifier>
+      <UniqueIdentifier>{944e4760-73b9-4d20-9498-c75671196d77}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{fbe1413e-c3aa-4d87-9e09-317141485a6a}</UniqueIdentifier>
+      <UniqueIdentifier>{ab90e684-868b-48a7-bff4-f6e3a6c1b397}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -53,6 +53,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="perceptronform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="segmentationform.cpp">
@@ -91,6 +94,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="object.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="perceptronform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <CustomBuild Include="segmentationform.hpp">

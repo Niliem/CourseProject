@@ -19,11 +19,13 @@ SOURCES += main.cpp\
     segmentationform.cpp \
     cell.cpp \
     object.cpp \
-    morphology.cpp
+    morphology.cpp \
+    perceptronform.cpp
 
 HEADERS  += mainwindow.hpp \
     filtrationform.hpp \
     segmentationform.hpp \
     cell.hpp \
     object.hpp \
-    morphology.hpp
+    morphology.hpp \
+    perceptronform.hpp
