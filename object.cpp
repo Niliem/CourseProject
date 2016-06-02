@@ -91,8 +91,10 @@ void Object::resize(int newWidth, int newHeight)
 			m_Image[_i][_j] = tempImage[i][j];
 		}
 	}
+	m_MinX -= startWidth;
+	m_MinY -= startHeight;
 	m_Height = newHeight;
-	m_Width = newWidth;
+	m_Width = newWidth;	
 }
 
 int Object::count() const

@@ -1,11 +1,17 @@
-#ifndef PERCEPTRONFORM_HPP
-#define PERCEPTRONFORM_HPP
+#pragma once
+#include <QMainWindow>
+#include <QPushButton>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <memory>
 
+#include "segmentationform.hpp"
 
 class PerceptronForm
+	: public QMainWindow
 {
+	Q_OBJECT
 public:
-    PerceptronForm();
+	explicit PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWidget *parent = nullptr);
+	std::vector<std::shared_ptr<Object>> mArrowObjects;
 };
-
-#endif // PERCEPTRONFORM_HPP

@@ -30,6 +30,8 @@ private:
 	void createActions();
 	void createMenu();	
 
+	void drawRectangle(int x, int y, int w, int h);
+
     std::shared_ptr<FiltrationForm> mFiltrationForm;
     std::shared_ptr<SegmentationForm> mSegmentationForm;
 

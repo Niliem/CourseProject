@@ -79,6 +79,12 @@
     <ClCompile Include="Release\moc_segmentationform.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Debug\moc_perceptronform.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_perceptronform.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cell.hpp">
@@ -96,10 +102,12 @@
     <ClInclude Include="object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="perceptronform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <CustomBuild Include="segmentationform.hpp">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="perceptronform.hpp">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

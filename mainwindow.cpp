@@ -48,15 +48,32 @@ void MainWindow::setArrowObjects(std::vector<std::shared_ptr<Object>> object)
 	for (auto& i : mArrowObjects)
 	{
 		i->resize(33, 33);
+		drawRectangle(i->x(), i->y(), i->width(), i->height());
 		out << " Object: " << i->x() << "->" << i->width() << ":" << i->y() << "->" << i->height() << std::endl;
 		out << i->printImage();
 	}
+	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 	out << "End" << std::endl;
 	out.close();
 
 	if (mSegmentationForm != nullptr)
 	{
 		disconnect(mSegmentationForm.get(), SIGNAL(getArrowObjects(std::vector<std::shared_ptr<Object>>)), this, SLOT(setArrowObjects(std::vector<std::shared_ptr<Object>>)));
+	}
+}
+
+void MainWindow::drawRectangle(int x, int y, int w, int h)
+{
+	for (size_t i = 0; i < w; i++)
+	{
+		mCurrentImage->setPixelColor(x + i, y, qRgb(254, 0, 0));
+		mCurrentImage->setPixelColor(x + i, y + h, qRgb(254, 0, 0));
+	}
+
+	for (size_t j = 0; j < h; j++)
+	{
+		mCurrentImage->setPixelColor(x, y + j, qRgb(254, 0, 0));
+		mCurrentImage->setPixelColor(x + w, y + j, qRgb(254, 0, 0));
 	}
 }
 
