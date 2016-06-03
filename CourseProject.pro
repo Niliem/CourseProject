@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     cell.cpp \
     object.cpp \
     morphology.cpp \
-    perceptronform.cpp
+    perceptronform.cpp \
+    web.cpp
 
 HEADERS  += mainwindow.hpp \
     filtrationform.hpp \
@@ -28,4 +29,5 @@ HEADERS  += mainwindow.hpp \
     cell.hpp \
     object.hpp \
     morphology.hpp \
-    perceptronform.hpp
+    perceptronform.hpp \
+    web.hpp

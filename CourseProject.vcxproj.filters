@@ -26,12 +26,12 @@
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{944e4760-73b9-4d20-9498-c75671196d77}</UniqueIdentifier>
+      <UniqueIdentifier>{0178a6a0-9d1a-473a-a3da-1bd2a1884a18}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{ab90e684-868b-48a7-bff4-f6e3a6c1b397}</UniqueIdentifier>
+      <UniqueIdentifier>{2e8e92b6-b4dc-4541-ad08-6ed35f1e2930}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -61,6 +61,9 @@
     <ClCompile Include="segmentationform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="web.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Debug\moc_filtrationform.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -73,16 +76,16 @@
     <ClCompile Include="Release\moc_mainwindow.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Debug\moc_segmentationform.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_segmentationform.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Debug\moc_perceptronform.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Release\moc_perceptronform.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_segmentationform.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_segmentationform.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,13 +105,14 @@
     <ClInclude Include="object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <CustomBuild Include="segmentationform.hpp">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <CustomBuild Include="perceptronform.hpp">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="segmentationform.hpp">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="web.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
