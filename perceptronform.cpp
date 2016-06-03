@@ -3,17 +3,24 @@
 PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWidget *parent)
 	: QMainWindow(parent)
 	, currentImage{-1}
+	, size{33}
+	, Web1(33, 33, input)
+	, Web2(33, 33, input)
 {
 	this->setWindowTitle("Perceptron");
-
+	
+	input.resize(size * size, 0);
 	mArrowObjects = arrows;
 
 	std::sort(mArrowObjects.begin(), mArrowObjects.end(), [](std::shared_ptr<Object> a, std::shared_ptr<Object> b) {
 		return b->x() > a->x();
 	});
 
-
 	mImageLabel = new QLabel();
+
+	mResult1Label = new QLabel();
+	mResult2Label = new QLabel();
+	mResult3Label = new QLabel();
 
 	mVLayout = new QVBoxLayout();
 	mControllButtonsHBoxLayout = new QHBoxLayout();
@@ -25,6 +32,9 @@ PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWid
 	connect(mNextImageButton, SIGNAL(pressed()), this, SLOT(nextImageSlot()));
 
 	mImageHBoxLayout->addWidget(mImageLabel);
+	mImageHBoxLayout->addWidget(mResult1Label);
+	mImageHBoxLayout->addWidget(mResult2Label);
+	mImageHBoxLayout->addWidget(mResult3Label);
 	mImageHBoxLayout->addWidget(mNextImageButton);
 
 	mOkButton = new QPushButton(tr("Ok"));
@@ -67,7 +77,6 @@ std::shared_ptr<QImage> PerceptronForm::generateImage(int index)
 			}
 		}
 	}
-	//tmpImage
 	return tmpImage;
 }
 
@@ -80,6 +89,76 @@ void PerceptronForm::nextImage()
 		mNextImageButton->setEnabled(false);
 	}
 	mNextImageButton->setText(QString(std::to_string(currentImage + 1).c_str()) + "/" + QString(std::to_string(mArrowObjects.size()).c_str()));
+
+	std::vector<std::vector<int>> LI;
+	LI.resize(size);
+	for (auto i = 0; i < size; ++i)
+		LI[i].resize(size);
+
+
+	for (size_t i = 0; i < mArrowObjects[currentImage]->height(); i++)
+	{
+		for (size_t j = 0; j < mArrowObjects[currentImage]->width(); j++)
+		{
+			if (mArrowObjects[currentImage]->getCellValue(i, j) > 0)
+			{
+				LI[i][j] = 0;
+			}
+			else
+			{
+				LI[i][j] = 1;
+			}
+		}
+	}
+	input = ArrayToVector(LI);
+	Web1.input = input;
+	Web2.input = input;
+	recognize();
+}
+
+void PerceptronForm::recognize()
+{
+	Web1.mul_w();
+	Web1.Sum();
+	if (Web1.Rez())
+	{
+		mResult1Label->setText("true");
+	}
+	else
+	{
+		mResult1Label->setText("false");
+	}
+	//SumLabel.Text = Convert.ToString(Web1.sum);
+
+
+	Web2.mul_w();
+	Web2.Sum();
+	if (Web2.Rez())
+	{
+		mResult2Label->setText("true");
+	}
+	else
+	{
+		mResult2Label->setText("false");
+	}
+	//label6.Text = Convert.ToString(Web2.sum);
+
+	if (Web1.Rez() && Web2.Rez())
+	{
+		mResult3Label->setText("A1");
+	}
+	else if (!Web1.Rez() && !Web2.Rez())
+	{
+		mResult3Label->setText("A2");
+	}
+	else if (Web1.Rez() && !Web2.Rez())
+	{
+		mResult3Label->setText("A3");
+	}
+	else
+	{
+		mResult3Label->setText("A4");
+	}
 }
 
 void PerceptronForm::closeEvent(QCloseEvent* event)
@@ -103,4 +182,22 @@ void PerceptronForm::ok()
 void PerceptronForm::nextImageSlot()
 {
 	nextImage();
+}
+
+std::vector<int> PerceptronForm::ArrayToVector(std::vector<std::vector<int>> arr)
+{
+	int height = size;
+	int width = size;
+	std::vector<int> vector;
+	vector.resize(size*size, 0);
+	int k = 0;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			vector[k] = arr[j][i];
+			k++;
+		}
+	}
+	return vector;
 }

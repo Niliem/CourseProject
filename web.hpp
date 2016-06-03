@@ -1,11 +1,26 @@
-#ifndef WEB_HPP
-#define WEB_HPP
+#pragma once
 
+#include <vector>
 
 class Web
 {
 public:
-    Web();
-};
+   	std::vector<int> mul;
+	std::vector<int> weight;
+	std::vector<int> input;
 
-#endif // WEB_HPP
+	int limit;
+	int sum;
+
+	int sizeX;
+	int sizeY;
+
+	Web(int sizex, int sizey, std::vector<int> inP);
+
+	void mul_w();
+	void Sum();
+	bool Rez();
+	void incW(std::vector<int> inP);
+	void decW(std::vector<int> inP);
+
+};
