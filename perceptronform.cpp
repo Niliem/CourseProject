@@ -77,6 +77,14 @@ std::shared_ptr<QImage> PerceptronForm::generateImage(int index)
 			}
 		}
 	}
+	
+	QString filename = std::to_string(index).c_str();
+	filename += ".bmp";
+	tmpImage->save(filename);
+	// Сохранение картинки 
+	// с рандомным названием
+	// для обучения персептрона
+
 	return tmpImage;
 }
 
