@@ -1,4 +1,5 @@
 #include "perceptronform.hpp"
+#include <fstream>
 
 PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWidget *parent)
 	: QMainWindow(parent)
@@ -15,6 +16,33 @@ PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWid
 	std::sort(mArrowObjects.begin(), mArrowObjects.end(), [](std::shared_ptr<Object> a, std::shared_ptr<Object> b) {
 		return b->x() > a->x();
 	});
+
+	
+	std::vector<int> weight;
+	weight.resize(size * size, 0);
+
+	std::ifstream infile1("C://Projects/GitHub/CourseProject/w1.txt");
+	for (int i = 0; i < size*size; ++i)
+	{
+		int a = 0;
+		infile1 >> a;
+		weight[i] = a;
+	}
+	infile1.close();
+	Web1.weight = weight;
+
+	weight.clear();
+	weight.resize(size * size, 0);
+
+	std::ifstream infile2("C://Projects/GitHub/CourseProject/w2.txt");
+	for (int i = 0; i < size*size; ++i)
+	{
+		int a = 0;
+		infile2 >> a;
+		weight[i] = a;
+	}
+	infile2.close();
+	Web2.weight = weight;
 
 	mImageLabel = new QLabel();
 
@@ -96,6 +124,7 @@ void PerceptronForm::nextImage()
 	{
 		mNextImageButton->setEnabled(false);
 	}
+	
 	mNextImageButton->setText(QString(std::to_string(currentImage + 1).c_str()) + "/" + QString(std::to_string(mArrowObjects.size()).c_str()));
 
 	std::vector<std::vector<int>> LI;
@@ -110,11 +139,11 @@ void PerceptronForm::nextImage()
 		{
 			if (mArrowObjects[currentImage]->getCellValue(i, j) > 0)
 			{
-				LI[i][j] = 0;
+				LI[i][j] = 1;
 			}
 			else
 			{
-				LI[i][j] = 1;
+				LI[i][j] = 0;
 			}
 		}
 	}
@@ -136,8 +165,6 @@ void PerceptronForm::recognize()
 	{
 		mResult1Label->setText("false");
 	}
-	//SumLabel.Text = Convert.ToString(Web1.sum);
-
 
 	Web2.mul_w();
 	Web2.Sum();
@@ -149,23 +176,22 @@ void PerceptronForm::recognize()
 	{
 		mResult2Label->setText("false");
 	}
-	//label6.Text = Convert.ToString(Web2.sum);
 
 	if (Web1.Rez() && Web2.Rez())
 	{
-		mResult3Label->setText("A1");
+		mResult3Label->setText("Left");
 	}
 	else if (!Web1.Rez() && !Web2.Rez())
 	{
-		mResult3Label->setText("A2");
+		mResult3Label->setText("Right");
 	}
 	else if (Web1.Rez() && !Web2.Rez())
 	{
-		mResult3Label->setText("A3");
+		mResult3Label->setText("Up");
 	}
 	else
 	{
-		mResult3Label->setText("A4");
+		mResult3Label->setText("Down");
 	}
 }
 
@@ -183,7 +209,6 @@ void PerceptronForm::cancel()
 
 void PerceptronForm::ok()
 {
-	//emit getImage(mCurrentImage);
 	this->close();
 }
 
