@@ -134,7 +134,6 @@ bool betwen(int value, int min, int max)
 
 void SegmentationForm::ok()
 {
-	// get objects 31x31
 	std::vector<std::shared_ptr<Object>> mArrows;
 	for (auto& o : mObjects)
 	{
@@ -143,7 +142,6 @@ void SegmentationForm::ok()
 			mArrows.push_back(o);
 		}
 	}
-	// sorted by x()
 
     emit getArrowObjects(mArrows);
     this->close();

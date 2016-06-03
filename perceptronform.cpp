@@ -11,6 +11,14 @@ PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWid
 	this->setWindowTitle("Perceptron");
 	
 	input.resize(size * size, 0);
+
+	mLambda1 = new QTableWidget;
+	mLambda2 = new QTableWidget;
+	mMul1 = new QTableWidget;
+	mMul2 = new QTableWidget;
+
+	mTablesVLayout = new QVBoxLayout();
+
 	mArrowObjects = arrows;
 
 	std::sort(mArrowObjects.begin(), mArrowObjects.end(), [](std::shared_ptr<Object> a, std::shared_ptr<Object> b) {
@@ -43,6 +51,27 @@ PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWid
 	}
 	infile2.close();
 	Web2.weight = weight;
+	
+
+	mTablesVLayout->addWidget(mLambda1);
+	mTablesVLayout->addWidget(mLambda2);
+	mTablesVLayout->addWidget(mMul1);
+	mTablesVLayout->addWidget(mMul2);
+
+	setSizeTableWithImage(33 * 33, 1, mLambda1);
+	setSizeTableWithImage(33 * 33, 1, mLambda2);
+	setSizeTableWithImage(33 * 33, 1, mMul1);
+	setSizeTableWithImage(33 * 33, 1, mMul2);
+
+	fillTable(mLambda1, Web1.weight);
+	fillTable(mLambda2, Web2.weight);
+	fillTable(mMul1, "0");
+	fillTable(mMul2, "0");
+
+	resizeTable(mLambda1);
+	resizeTable(mLambda2);
+	resizeTable(mMul1);
+	resizeTable(mMul2);
 
 	mImageLabel = new QLabel();
 
@@ -63,6 +92,7 @@ PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWid
 	mImageHBoxLayout->addWidget(mResult1Label);
 	mImageHBoxLayout->addWidget(mResult2Label);
 	mImageHBoxLayout->addWidget(mResult3Label);
+	mImageHBoxLayout->addLayout(mTablesVLayout);
 	mImageHBoxLayout->addWidget(mNextImageButton);
 
 	mOkButton = new QPushButton(tr("Ok"));
@@ -82,6 +112,41 @@ PerceptronForm::PerceptronForm(std::vector<std::shared_ptr<Object>> arrows, QWid
 
 	nextImage();
 }
+
+void PerceptronForm::setSizeTableWithImage(int w, int h, QTableWidget *table)
+{
+	table->setRowCount(h);
+	table->setColumnCount(w);
+}
+
+void PerceptronForm::resizeTable(QTableWidget *table)
+{
+	table->resizeColumnsToContents();
+	table->resizeRowsToContents();
+}
+
+void PerceptronForm::fillTable(QTableWidget *table, QString value)
+{
+	for (int i = 0; i < table->rowCount(); ++i)
+	{
+		for (int j = 0; j < table->columnCount(); ++j)
+		{
+			table->setItem(i, j, new QTableWidgetItem(value));
+		}
+	}
+}
+
+void PerceptronForm::fillTable(QTableWidget *table, std::vector<int> array)
+{
+	for (int i = 0; i < table->rowCount(); ++i)
+	{
+		for (int j = 0; j < table->columnCount(); ++j)
+		{
+			table->setItem(i, j, new QTableWidgetItem(QString(std::to_string(array[j]).c_str())));
+		}
+	}
+}
+
 
 void PerceptronForm::updateImageLabel(std::shared_ptr<QImage> image, QLabel* label, int minWidth, int minHeight) const
 {
@@ -106,12 +171,9 @@ std::shared_ptr<QImage> PerceptronForm::generateImage(int index)
 		}
 	}
 	
-	QString filename = std::to_string(index).c_str();
-	filename += ".bmp";
-	tmpImage->save(filename);
-	// Сохранение картинки 
-	// с рандомным названием
-	// для обучения персептрона
+	//QString filename = std::to_string(index).c_str();
+	//filename += ".bmp";
+	//tmpImage->save(filename);
 
 	return tmpImage;
 }
@@ -193,6 +255,8 @@ void PerceptronForm::recognize()
 	{
 		mResult3Label->setText("Down");
 	}
+	fillTable(mMul1, Web1.mul);
+	fillTable(mMul2, Web2.mul);
 }
 
 void PerceptronForm::closeEvent(QCloseEvent* event)

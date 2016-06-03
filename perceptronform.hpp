@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QTableWidget>
 #include <memory>
 
 #include "segmentationform.hpp"
@@ -20,6 +21,10 @@ public:
 	void closeEvent(QCloseEvent * event) override;
 
 private:
+	void setSizeTableWithImage(int w, int h, QTableWidget *table);
+	void resizeTable(QTableWidget *table);
+	void fillTable(QTableWidget *table, QString value);
+	void fillTable(QTableWidget *table, std::vector<int> array);
 	void updateImageLabel(std::shared_ptr<QImage> image, QLabel* label, int minWidth, int minHeight) const;
 	void nextImage();
 	void recognize();
@@ -33,6 +38,12 @@ private:
 	QHBoxLayout* mImageHBoxLayout;
 	QLabel* mImageLabel;
 	QPushButton* mNextImageButton;
+
+	QTableWidget *mLambda1;
+	QTableWidget *mLambda2;
+	QTableWidget *mMul1;
+	QTableWidget *mMul2;
+	QVBoxLayout* mTablesVLayout;
 
 
 	QPushButton* mOkButton;
