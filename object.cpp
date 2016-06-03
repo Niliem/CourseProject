@@ -69,6 +69,7 @@ void Object::generateImage()
 void Object::resize(int newWidth, int newHeight)
 {
 	std::vector<std::vector<int>> tempImage = m_Image;
+	m_Image.clear();
 	m_Image.resize(newHeight);
 	for (auto i = 0; i < newHeight; ++i)
 	{
@@ -91,8 +92,8 @@ void Object::resize(int newWidth, int newHeight)
 			m_Image[_i][_j] = tempImage[i][j];
 		}
 	}
-	m_MinX -= startWidth;
-	m_MinY -= startHeight;
+	//m_MinX -= startWidth;
+	//m_MinY -= startHeight;
 	m_Height = newHeight;
 	m_Width = newWidth;	
 }

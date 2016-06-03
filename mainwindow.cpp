@@ -44,14 +44,26 @@ void MainWindow::setArrowObjects(std::vector<std::shared_ptr<Object>> object)
 {
 	mArrowObjects = object;
 
+	std::sort(mArrowObjects.begin(), mArrowObjects.end(), [](std::shared_ptr<Object> a, std::shared_ptr<Object> b) {
+		return b->x() > a->x();
+	});
+	
 	std::ofstream out("result.txt");
 	for (auto& i : mArrowObjects)
 	{
 		i->resize(33, 33);
+
 		drawRectangle(i->x(), i->y(), i->width(), i->height());
 		out << " Object: " << i->x() << "->" << i->width() << ":" << i->y() << "->" << i->height() << std::endl;
 		out << i->printImage();
 	}
+	
+	// clear x min
+
+
+	// clear x max
+
+
 	updateImageLabel(mCurrentImage, mImageLabel, 0, 0);
 	out << "End" << std::endl;
 	out.close();
@@ -87,6 +99,9 @@ void MainWindow::createActions()
 
 	mOpenSegmentationFormAction = new QAction(tr("&Open segmentation form..."), this);
 	connect(mOpenSegmentationFormAction, SIGNAL(triggered()), this, SLOT(OpenSegmentationForm()));
+
+	mOpenPerceptronFormAction = new QAction(tr("&Open perceptron form..."), this);
+	connect(mOpenPerceptronFormAction, SIGNAL(triggered()), this, SLOT(OpenPerceptronForm()));
 }
 
 void MainWindow::createMenu()
@@ -95,6 +110,7 @@ void MainWindow::createMenu()
 	mFileMenu->addAction(mOpenImageAction);
 	mFileMenu->addAction(mOpenFiltrationFormAction);
     mFileMenu->addAction(mOpenSegmentationFormAction);
+	mFileMenu->addAction(mOpenPerceptronFormAction);
 }
 
 void MainWindow::OpenImage()
@@ -115,4 +131,11 @@ void MainWindow::OpenSegmentationForm()
     mSegmentationForm = std::make_shared<SegmentationForm>(mCurrentImage);
     connect(mSegmentationForm.get(), SIGNAL(getArrowObjects(std::vector<std::shared_ptr<Object>>)), this, SLOT(setArrowObjects(std::vector<std::shared_ptr<Object>>)));
     mSegmentationForm->show();
+}
+
+void MainWindow::OpenPerceptronForm()
+{
+	mPerceptronForm = std::make_shared<PerceptronForm>(mArrowObjects);
+	//connect(mSegmentationForm.get(), SIGNAL(getArrowObjects(std::vector<std::shared_ptr<Object>>)), this, SLOT(setArrowObjects(std::vector<std::shared_ptr<Object>>)));
+	mPerceptronForm->show();
 }
